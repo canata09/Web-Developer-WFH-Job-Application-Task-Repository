@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 if (!isset($_SESSION['access_token'])) {
     // Eğer token yoksa, giriş sayfasına yönlendiriyoruz
@@ -9,45 +8,65 @@ if (!isset($_SESSION['access_token'])) {
 
 $access_token = $_SESSION['access_token'];  // Oturumdan token'ı alıyoruz
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // To-do oluşturma isteği
-    $task_name = $_POST['task_name'];
-    $due_date = $_POST['due_date'];
-    $priority = $_POST['priority'];
 
-    // API URL
-    $url = "https://api.baubuddy.de/dev/index.php/v1/tasks/select";
+$ch_get = curl_init();
 
-    // Gönderilecek JSON verisi
-    $data = json_encode([
-        "task_name" => $task_name,
-        "due_date" => $due_date,
-        "priority" => $priority
-    ]);
+// GET cURL isteği
+$url_get = 'https://api.baubuddy.de/dev/index.php/v1/tasks/select';  // GET isteği yapılacak URL
 
-    // cURL ile API'ye POST isteği gönderiyoruz
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Content-Type: application/json',
-        "Authorization: Bearer $access_token"
-    ]);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+curl_setopt_array($ch_get, [
+    CURLOPT_URL => $url_get,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_HTTPHEADER => [
+        'Authorization: Bearer ' . $access_token,
+        "Content-Type: application/json"
+    ],
+]);
 
-    $response = curl_exec($ch);  // API'den gelen yanıtı alıyoruz
-    curl_close($ch);
+// GET isteğini gönder
+$response_get = curl_exec($ch_get);
+curl_close($ch_get);
+if (curl_errno($ch_get)) {
+    echo 'Curl error: ' . curl_error($ch_get);
+} else {
 
-    // Yanıtı JSON olarak decode ediyoruz
-    $response_data = json_decode($response, true);
+    $info = json_decode($response_get, true);
 
-    if (isset($response_data['task_id'])) {
-        echo "To-do görev başarıyla oluşturuldu!";
-    } else {
-        echo "To-do oluşturulamadı. Hata: " . $response_data['message'];
+
+    // HTML tablosunu oluştur
+    echo "<table border='1'>
+        <tr>
+            <th>Task</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Sort</th>
+            <th>Wage Type</th>
+            <th>Business Unit</th>
+            <th>Parent Task ID</th>
+            <th>Color Code</th>
+            <th>Working Time</th>
+            <th>Available in Kiosk Mode</th>
+        </tr>";
+
+    // JSON'dan gelen her bir öğe için tablo satırı oluştur
+    foreach ($info as $item) {
+        echo "<tr>
+            <td>" . $item['task'] . "</td>
+            <td>" . $item['title'] . "</td>
+            <td>" . $item['description'] . "</td>
+            <td>" . $item['sort'] . "</td>
+            <td>" . $item['wageType'] . "</td>
+            <td>" . $item['businessUnit'] . "</td>
+            <td>" . $item['parentTaskID'] . "</td>
+            <td>" . $item['colorCode'] . "</td>
+            <td>" . $item['workingTime'] . "</td>
+            <td>" . ($item['isAvailableInTimeTrackingKioskMode'] ? 'Yes' : 'No') . "</td>
+        </tr>";
     }
+
+    echo "</table>";
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -56,27 +75,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yeni To-Do Oluştur</title>
+    <title>List</title>
 </head>
 
 <body>
-    <h2>Yeni To-Do Görevi Oluştur</h2>
-    <form action="todo.php" method="post">
-        <label for="task_name">Görev Adı:</label><br>
-        <input type="text" id="task_name" name="task_name" required><br><br>
+    <h2>List</h2>
 
-        <label for="due_date">Son Tarih:</label><br>
-        <input type="date" id="due_date" name="due_date" required><br><br>
-
-        <label for="priority">Öncelik:</label><br>
-        <select id="priority" name="priority" required>
-            <option value="low">Düşük</option>
-            <option value="medium">Orta</option>
-            <option value="high">Yüksek</option>
-        </select><br><br>
-
-        <button type="submit">Görevi Oluştur</button>
-    </form>
 </body>
 
 </html>
