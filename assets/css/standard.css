@@ -1,0 +1,7 @@
+.middledoc {
+    width: 100%;
+    float: left;
+    height: auto;
+    z-index: 998;
+    position: relative;
+}

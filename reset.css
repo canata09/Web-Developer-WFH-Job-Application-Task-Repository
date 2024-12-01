@@ -1,0 +1,116 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: all 0.3s;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+
+
+body {
+    margin: 0;
+    padding: 0;
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 1.2vw;
+    line-height: 1.4;
+    color: #333;
+}
+
+
+
+
+h1 {
+    font-size: 2.0vw;
+}
+
+h2 {
+    font-size: 1.8vw;
+}
+
+h3 {
+    font-size: 1.6vw;
+}
+
+h4 {
+    font-size: 1.2vw;
+    font-weight: 300;
+}
+
+h5 {
+    font-size: 0.8vw;
+    font-weight: 200;
+}
+
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 3.8vw;
+    }
+
+    h2 {
+        font-size: 3.4vw;
+    }
+
+    h3 {
+        font-size: 3vw;
+    }
+
+    h4 {
+        font-size: 2.6vw;
+        font-weight: 300;
+    }
+
+    h5 {
+        font-size: 2.2vw;
+        font-weight: 200;
+    }
+}
+
+
+
+
+
+/* Ekran boyutuna göre düzenlemeler */
+@media only screen and (max-width: 768px) {
+
+    body {
+        font-size: 2.6vw;
+    }
+
+}
+
+
+
+
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
+}
+
+button {
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(04px);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+svg,
+video {
+    max-width: 100%;
+    display: block;
+}
+
+video[autoplay]:not([muted]) {
+    display: none;
+}

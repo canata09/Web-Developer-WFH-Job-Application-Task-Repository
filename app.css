@@ -1,0 +1,39 @@
+/* Clear floats after the docs */
+.template:after {
+    content: "";
+    display: table;
+    clear: both;
+    position: relative;
+    margin: 0 auto;
+}
+
+
+/* Ekran boyutuna göre düzenlemeler */
+@media only screen and (min-width: 768px) {
+
+    /* Clear floats after the docs */
+    .template {
+        text-align: center;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0;
+        height: 100%;
+        transition: width 2s;
+    }
+
+}
+
+/* Ekran boyutuna göre düzenlemeler */
+@media only screen and (max-width: 768px) {
+
+    /* Clear floats after the docs */
+    .template {
+        text-align: center;
+        width: 90%;
+        margin: 0 auto;
+        padding: 0;
+        height: 100%;
+        transition: width 2s;
+    }
+
+}
